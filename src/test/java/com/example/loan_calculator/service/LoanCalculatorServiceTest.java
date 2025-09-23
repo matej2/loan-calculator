@@ -1,5 +1,6 @@
 package com.example.loan_calculator.service;
 
+import com.example.loan_calculator.domain.model.LoanOffer;
 import com.example.loan_calculator.domain.model.LoanRequest;
 import com.example.loan_calculator.util.LoanOfferUtil;
 import com.example.loan_calculator.util.LoanRequestUtil;
@@ -13,10 +14,12 @@ class LoanCalculatorServiceTest {
 
     @Test
     void testThatGetMonthlyPaymentReturnsValidResult() {
+        LoanOffer loanOffer = LoanOfferUtil.getTestLoanOffer();
         LoanRequest loanRequest = LoanRequestUtil.getTestLoanRequest();
-        Long result = underTest.getMonthlyPayment(loanRequest);
 
-        assertThat(result).isEqualTo(58.37);
+        Float result = underTest.getMonthlyPayment(loanOffer, loanRequest);
+
+        assertThat(result).isEqualTo(42.148);
 
     }
 }
