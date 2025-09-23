@@ -29,4 +29,11 @@ class LoanCalculatorServiceTest {
 
         assertThat(result).isEqualTo(15738.89);
     }
+
+    @Test
+    void getTotalCosts() {
+        Float result = underTest.getTotalCosts(loanOffer, loanRequest);
+
+        assertThat(result).isEqualTo(5738.89);
+    }
 }

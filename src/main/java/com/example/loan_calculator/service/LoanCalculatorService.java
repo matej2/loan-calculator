@@ -22,4 +22,12 @@ public class LoanCalculatorService {
         subtotal += loanOffer.getOneTimeCosts();
         return subtotal + subtotal * loanOffer.getInterestRate();
     }
+
+    public float getTotalCosts(LoanOffer loanOffer, LoanRequest loanRequest) {
+        double monthlyCostsSum = IntStream.range(0, loanRequest.getPeriodMonths())
+                .mapToDouble(Double::valueOf)
+                .reduce(0, (subtotal, _) -> subtotal + loanOffer.getMonthlyCosts());
+        float subtotal = (float) (monthlyCostsSum + loanOffer.getOneTimeCosts());
+        return subtotal *= loanOffer.getInterestRate();
+    }
 }
