@@ -7,4 +7,6 @@ import lombok.Getter;
 @Getter
 public class LoanOffer {
     private final Float interestRate;
+    private final Float oneTimeCosts;
+    private final Float monthlyCosts;
 }

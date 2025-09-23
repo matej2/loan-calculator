@@ -19,7 +19,7 @@ class LoanCalculatorServiceTest {
 
         Float result = underTest.getMonthlyPayment(loanOffer, loanRequest);
 
-        assertThat(result).isEqualTo(42.148);
+        assertThat(result).isEqualTo(58.37);
 
     }
 }
