@@ -13,7 +13,7 @@ public class LoanOfferUtil {
 
     public static LoanOffer getTestLoanOfferSimple() {
         return LoanOffer.builder()
-                .interestRate(0.028F)
+                .interestRate(0.06F)
                 .build();
     }
 }

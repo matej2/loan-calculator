@@ -21,12 +21,12 @@ public class LoanCalculatorService {
 
     // Anuiteta
     // Zaobkroževanje rezultata na dve decimalni mesti: https://stackoverflow.com/a/153753
-    public double getMonthlyPaymentNoFees(LoanOffer loanOffer, LoanRequest loanRequest) throws ParseException {
-        float interstRate = 1 + loanOffer.getInterestRate();
+    public double getMonthlyPayment(LoanOffer loanOffer, LoanRequest loanRequest) throws ParseException {
+        float interestRate = 1 + loanOffer.getInterestRate();
         double divident = loanRequest.getAmount()
-                * Math.pow(interstRate, loanRequest.getPeriodMonths())
-                * (interstRate - 1);
-        double divisor = Math.pow(interstRate, loanRequest.getPeriodMonths()) - 1;
+                * Math.pow(interestRate, loanRequest.getPeriodMonths())
+                * (interestRate - 1);
+        double divisor = Math.pow(interestRate, loanRequest.getPeriodMonths()) - 1;
 
         double result = divident / divisor;
         double subtotal = decimalFormat.parse(decimalFormat.format(result)).doubleValue();
@@ -36,20 +36,11 @@ public class LoanCalculatorService {
         return subtotal;
     }
 
-    public float getTotalPayment(LoanOffer loanOffer, LoanRequest loanRequest) {
-        double monthlyCostsSum = IntStream.range(0, loanRequest.getPeriodMonths())
-                .mapToDouble(Double::valueOf)
-                .reduce(0, (subtotal, _) -> subtotal + loanOffer.getMonthlyCosts());
-        float subtotal = (float) (loanRequest.getAmount() + monthlyCostsSum);
-        subtotal += loanOffer.getOneTimeCosts();
-        return subtotal + subtotal * loanOffer.getInterestRate();
+    public double getInterestValueForFirstPayment(LoanOffer loanOffer, LoanRequest loanRequest) {
+        return loanRequest.getAmount() * Math.pow(1 + loanOffer.getInterestRate(), 1) - loanRequest.getAmount();
     }
 
-    public float getTotalCosts(LoanOffer loanOffer, LoanRequest loanRequest) {
-        double monthlyCostsSum = IntStream.range(0, loanRequest.getPeriodMonths())
-                .mapToDouble(Double::valueOf)
-                .reduce(0, (subtotal, _) -> subtotal + loanOffer.getMonthlyCosts());
-        float subtotal = (float) (monthlyCostsSum + loanOffer.getOneTimeCosts());
-        return subtotal *= loanOffer.getInterestRate();
+    public double getTotalCosts(LoanOffer loanOffer, LoanRequest loanRequest) throws ParseException {
+        return getMonthlyPayment(loanOffer, loanRequest) * loanRequest.getPeriodMonths();
     }
 }

@@ -14,37 +14,29 @@ class LoanCalculatorServiceTest {
 
     private final LoanCalculatorService underTest = new LoanCalculatorService();
 
-    LoanOffer loanOffer = LoanOfferUtil.getTestLoanOffer();
-    LoanOffer loanOfferSimple = LoanOfferUtil.getTestLoanOfferSimple();
+    LoanOffer loanOfferA = LoanOfferUtil.getTestLoanOffer();
+    LoanOffer loanOfferB = LoanOfferUtil.getTestLoanOfferSimple();
 
-    LoanRequest loanRequestMonthly = LoanRequestUtil.getTestLoanRequestMonthlyPayments();
-    LoanRequest loanRequestYearly = LoanRequestUtil.getTestLoanRequestYearlyPayments();
+    LoanRequest loanRequestLong = LoanRequestUtil.getTestLoanRequestMonthlyPayments();
+    LoanRequest loanRequestShort = LoanRequestUtil.getTestLoanRequestYearlyPayments();
 
     @Test
-    void testThatGetMonthlyPaymentIncludingFeesReturnsValidResult() throws ParseException {
-        double result = underTest.getMonthlyPaymentNoFees(loanOfferSimple, loanRequestMonthly);
+    void testThatGetMonthlyPaymentReturnsValidResult() throws ParseException {
+        double result = underTest.getMonthlyPayment(loanOfferA, loanRequestLong);
 
         assertThat(result).isEqualTo(58.37);
-
     }
 
     @Test
-    void testThatGetYearlyPaymentForInitialPeriodReturnsValidResult() throws ParseException {
-        double result = underTest.getMonthlyPaymentNoFees(loanOfferSimple, loanRequestYearly);
+    void testThatGetMonthlyPaymentForShortPeriodReturnsValidResult() throws ParseException {
+        double result = underTest.getMonthlyPayment(loanOfferB, loanRequestShort);
 
         assertThat(result).isEqualTo(5934.91);
     }
 
     @Test
-    void testThatGetTotalPaymentReturnsValidResult() {
-        Float result = underTest.getTotalPayment(loanOffer, loanRequestMonthly);
-
-        assertThat(result).isEqualTo(15738.89);
-    }
-
-    @Test
-    void getTotalCosts() {
-        Float result = underTest.getTotalCosts(loanOffer, loanRequestMonthly);
+    void getTotalCosts() throws ParseException {
+        double result = underTest.getTotalCosts(loanOfferA, loanRequestLong);
 
         assertThat(result).isEqualTo(5738.89);
     }
