@@ -10,4 +10,10 @@ public class LoanOfferUtil {
                 .monthlyCosts(8.7F)
                 .build();
     }
+
+    public static LoanOffer getTestLoanOfferSimple() {
+        return LoanOffer.builder()
+                .interestRate(0.028F)
+                .build();
+    }
 }
